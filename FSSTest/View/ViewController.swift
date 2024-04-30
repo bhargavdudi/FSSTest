@@ -13,10 +13,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var indicatorview: UIActivityIndicatorView!
     
     // ViewModel object
-    var dataArray: [detailsResponseModel] = []
+    var dataArray: [Recipe] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        self.title = "Recipes"
         
         // Initially TableView is hidden
         dataTableView.isHidden = true
@@ -29,7 +31,7 @@ class ViewController: UIViewController {
         
         // Make an API Call
         showLoader()
-        dvm.getAPICall(urlStr: "https://jsonplaceholder.typicode.com/todos")
+        dvm.getAPICall(urlStr: "https://dummyjson.com/recipes")
         
         // Setting tableView
         dataTableView.register(UINib(nibName: "RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "RecipeTableViewCell")
@@ -64,29 +66,53 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource{
         let cell: RecipeTableViewCell
         = tableView.dequeueReusableCell(withIdentifier: "RecipeTableViewCell") as! RecipeTableViewCell
         cell.updateUI(details: dataArray[indexPath.row])
+        cell.recipeImageView.image = UIImage(named: "placeholder")  //set placeholder image first.
+        cell.recipeImageView.downloadImageFrom(link: dataArray[indexPath.row].image ?? "", contentMode: UIView.ContentMode.scaleAspectFit)
+        cell.selectionStyle = .none
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let str = UIStoryboard(name: "Main", bundle: nil)
+        let nextVC = str.instantiateViewController(withIdentifier: "DetailsViewController") as! DetailsViewController
+        nextVC.recipeDetails = dataArray[indexPath.row]
+        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
 }
 
 extension ViewController: DataDelegate{
     
-    func didReceiveSuccess(response: [detailsResponseModel]?, error: String?) {
+    func didReceiveSuccess(response: detailsResponseModel?, error: String?) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.hideHider()
             self.dataTableView.isHidden = false
-            self.dataArray =  response ?? []
+            self.dataArray =  response?.recipes ?? []
+            print(self.dataArray[0].name ?? "")
             self.dataTableView.reloadData()
         }
-        
     }
     
     func didReceiveFailure(error: String?) {
-        self.hideHider()
-        self.showAlert(errorStr: error ?? "Something went wrong. Please try again after sometime")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.hideHider()
+            self.showAlert(errorStr: error ?? "Something went wrong. Please try again after sometime")
+        }
     }
 }
 
+extension UIImageView {
+    func downloadImageFrom(link:String, contentMode: UIView.ContentMode) {
+        URLSession.shared.dataTask( with: NSURL(string:link)! as URL, completionHandler: {
+            (data, response, error) -> Void in
+            DispatchQueue.main.async {
+                self.contentMode =  contentMode
+                if let data = data { self.image = UIImage(data: data) }
+            }
+        }).resume()
+    }
+}
