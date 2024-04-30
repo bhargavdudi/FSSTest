@@ -70,24 +70,15 @@
 			children = (
 				600725442BE0FC9C00824F9F /* AppDelegate.swift */,
 				600725462BE0FC9C00824F9F /* SceneDelegate.swift */,
-				6007255D2BE1008300824F9F /* DetailsView */,
+				609BE03F2BE163D50084B450 /* ViewModel */,
+				609BE03E2BE163C60084B450 /* Model */,
+				609BE0412BE163F10084B450 /* View */,
 				6007254A2BE0FC9C00824F9F /* Main.storyboard */,
 				6007254D2BE0FC9E00824F9F /* Assets.xcassets */,
 				6007254F2BE0FC9E00824F9F /* LaunchScreen.storyboard */,
 				600725522BE0FC9E00824F9F /* Info.plist */,
 			);
 			path = FSSTest;
-			sourceTree = "<group>";
-		};
-		6007255D2BE1008300824F9F /* DetailsView */ = {
-			isa = PBXGroup;
-			children = (
-				600725482BE0FC9C00824F9F /* ViewController.swift */,
-				6007255E2BE100A900824F9F /* DataModel.swift */,
-				600725602BE100B900824F9F /* DataViewModel.swift */,
-				600725622BE10C9300824F9F /* TableViewCell */,
-			);
-			path = DetailsView;
 			sourceTree = "<group>";
 		};
 		600725622BE10C9300824F9F /* TableViewCell */ = {
@@ -97,6 +88,31 @@
 				600725642BE10CB600824F9F /* RecipeTableViewCell.xib */,
 			);
 			path = TableViewCell;
+			sourceTree = "<group>";
+		};
+		609BE03E2BE163C60084B450 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6007255E2BE100A900824F9F /* DataModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		609BE03F2BE163D50084B450 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				600725602BE100B900824F9F /* DataViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		609BE0412BE163F10084B450 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				600725622BE10C9300824F9F /* TableViewCell */,
+				600725482BE0FC9C00824F9F /* ViewController.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
