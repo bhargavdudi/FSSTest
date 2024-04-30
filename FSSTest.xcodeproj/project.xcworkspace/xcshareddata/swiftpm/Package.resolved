@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "webcall",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/bhargavdudi/WebCall.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "9f8e0494abad5339fc7c65d12e8732757626ad37"
+      }
+    }
+  ],
+  "version" : 2
+}
